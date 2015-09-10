@@ -71,10 +71,19 @@ app.use(function(req, res, next) {
 app.use(function(req, res, next) {
   var _send = res.send;
   var schema_origin = validator_schema.res[req.path];
-  res.send = function() {
-    var body = arguments[0];
-    var validate_errors = validator(body, schema_origin);
-    return _send.apply(res, arguments);
+  if(schema_origin) {
+    res.send = function() {
+      var body = arguments[0];
+      if(body && typeof(body) === 'object') {
+        try {
+          var validate_errors = validator(body, schema_origin);
+          if (validate_errors.length) logger.error('res params error:', validate_errors);
+        } catch(e) {
+          if(e) console.log(e);
+        }
+      }
+      return _send.apply(res, arguments);
+    }
   }
   next();
 });

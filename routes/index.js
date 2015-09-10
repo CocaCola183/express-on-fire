@@ -70,7 +70,8 @@ router.get('/collector', function(req, res, next) {
  * test for validator
  */
 router.get('/validator', function (req, res, next) {
-	res.send('validate success');
+	res.send({statuss: 'success'});
+	// res.send('success');
 });
 
 

@@ -1,0 +1,27 @@
+{
+	"log": {
+		"http_log": {
+			"log_dir": "log/http/"
+		},
+		"app_log": {
+  		"log_dir": "./log/",
+		  "record_level": 0,
+		  "log_methods": {
+		    "log": { "color": "white", "rank": 0},
+		    "info": { "color": "green", "rank": 1},
+		    "trace": { "color": "cyan", "rank": 2},
+		    "debug": { "color": "blue", "rank": 3},
+		    "warn": { "color": "yellow", "rank": 4},
+		    "error": { "color": "red", "rank": 5},
+		    "mongo": {"color": "red", "rank": 5}
+		  }
+		}
+	},
+	"mongo": {
+		"addr": "mongodb://localhost/test",
+		"name": "test"
+	},
+	"session": {
+		"secret": "kivi"
+	}
+}

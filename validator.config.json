@@ -1,0 +1,18 @@
+{
+	"req": {
+		"/validator": {
+			"name": {
+				"type": "string",
+				"required": true
+			}
+		}
+	},
+	"res": {
+		"/validator": {
+			"status": {
+				"type": "string",
+				"required": true
+			}
+		}
+	}
+}

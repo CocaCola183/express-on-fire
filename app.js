@@ -2,7 +2,6 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var http_logger = require('morgan-plus');
-// var http_logger = require('/Users/kivipc/.nvm/versions/node/v0.12.7/lib/node_modules/morgan-plus');
 var app_logger = require('./lib/logger');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');

@@ -7,11 +7,11 @@ var vi = require('vi-mock');
 
 var url_prefix = 'http://localhost:3000';
 
-async.eachSeries(Object.keys(validator_schema.req), function(method, callback) {
+async.eachSeries(Object.keys(validator_schema.req), function (method, callback) {
 
-	async.eachSeries(Object.keys(validator_schema.req[method]), function(url, callback) {
+  async.eachSeries(Object.keys(validator_schema.req[method]), function (url, callback) {
 
-		var params = adapt_params(method, vi.object(validator_schema.req[method][url]));
+		var params = adapt_params (method, vi.object (validator_schema.req[method][url]));
 
 		var original_url = url;
 		url = adapt_url(method, url, params);
@@ -21,10 +21,16 @@ async.eachSeries(Object.keys(validator_schema.req), function(method, callback) {
 		  	var req = request(method, url_prefix + url);
 		  	
 				adapt_req(method, req, params).end(function(err, res){
-						if(err) done(err);
-						if(!res.body.should.have.property('status', 'success')) done(new Error('status code is not success'));
+						if(err) {
+							done(err);
+						} 
+						if(!res.body.should.have.property('status', 'success')) {
+							done(new Error('status code is not success'));
+						} 
 						var error_info = validator(res.body, validator_schema.res[method][original_url]);
-						if(!error_info.should.be.eql([])) done(new Error('res.body is not expected'));
+						if(!error_info.should.be.eql([])) {
+							done(new Error('res.body is not expected'));
+						} 
 						done();
 					});
 		  });

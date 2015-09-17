@@ -5,12 +5,13 @@ var http_logger = require('morgan-plus');
 // var http_logger = require('/Users/kivipc/.nvm/versions/node/v0.12.7/lib/node_modules/morgan-plus');
 var app_logger = require('./lib/logger');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var bodyParser = require('body-parser');
 var config = require('./config.json');
 var fs = require('fs');
 var routes = require('./routes/index');
-var session = require('express-session');
 var users = require('./routes/users');
+var validator_router = require('./routes/validator');
 var logger = require('./lib/logger');
 var multer =require('multer');
 var upload = multer();
@@ -59,10 +60,12 @@ app.use(params_collector());
 /*validate req params*/
 // Note: based on params collector
 app.use(function(req, res, next) {
-  var validate_errors = validator(req.params_all, validator_schema.req[req.path]);
-  if (validate_errors.length) {
-    res.status(400);
-    next(validate_errors);
+  if(validator_schema.req[req.method.toLowerCase()][req.path]) {
+    var validate_errors = validator(req.params_all, validator_schema.req[req.method.toLowerCase()][req.path]);
+    if (validate_errors.length) {
+      res.status(400);
+      next(validate_errors);
+    } else next();
   } else next();
 });
 
@@ -70,7 +73,7 @@ app.use(function(req, res, next) {
 // Note: only validate for 
 app.use(function(req, res, next) {
   var _send = res.send;
-  var schema_origin = validator_schema.res[req.path];
+  var schema_origin = validator_schema.res[req.method.toLowerCase()][req.path];
   if(schema_origin) {
     res.send = function() {
       var body = arguments[0];
@@ -91,6 +94,7 @@ app.use(function(req, res, next) {
 // router
 app.use('/', routes);
 app.use('/users', users);
+app.use('/validator', validator_router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -100,19 +104,24 @@ app.use(function(req, res, next) {
 });
 
 // error handlers
-
-// development error handler
 if (app.get('env') === 'development') {
+  // development error handler
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.send({status: 'error', message: err});
+    if(res.statusCode === 500) {
+      logger.warn('Trace error stack:');
+      console.trace(err);
+    }
+    res.send({status: 'error', message: err.message});
+  });
+} else {
+  // production error handler
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.send({status: 'error', message: 'Internal server error'});
   });
 }
 
-// production error handler
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  // res.send({status: 'error', message: 'Internal server error'});
-});
+
 
 module.exports = app;

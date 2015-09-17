@@ -22,14 +22,15 @@ router.post('/form-data-parser', upload.array(), function (req, res, next) {
  * for error handling
  */
 router.get('/error-handling', function (req, res, next) {
-	throw new Error('hello world');
-	res.send('Error handling');
+	// throw new Error('hello world');
+	// res.send('Error handling');
+  consol.log('error') ;
+  res.send('Test for error handling');
 });
 
 /**
  * use of session for a special router
  */
-
 var session = require('express-session');
 var config = require('../config.json');
 
@@ -64,14 +65,6 @@ router.get('/session', function (req, res, next) {
  */
 router.get('/collector', function(req, res, next) {
 	res.send(req.params_all);
-});
-
-/**
- * test for validator
- */
-router.get('/validator', function (req, res, next) {
-	res.send({statuss: 'success'});
-	// res.send('success');
 });
 
 

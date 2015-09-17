@@ -20,5 +20,13 @@
     "multer": "^1.0.3",
     "serve-favicon": "~2.3.0",
     "validator-json": "^1.0.4"
+  },
+  "devDependencies": {
+    "async": "^1.4.2",
+    "gulp": "^3.9.0",
+    "mocha": "^2.3.2",
+    "should": "^7.1.0",
+    "superagent": "^1.4.0",
+    "vi-mock": "^1.0.0"
   }
 }

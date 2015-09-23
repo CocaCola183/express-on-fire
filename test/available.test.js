@@ -45,7 +45,12 @@ async.eachSeries(Object.keys(validator_schema.req), function (method, callback) 
 	}
 });
 
-
+/**
+ * params adapter for diferent methods
+ * @param  {[type]} method [description]
+ * @param  {[type]} params [description]
+ * @return {[type]}        [description]
+ */
 function adapt_params(method, params) {
 	if(method.toLowerCase() === 'get') {
 		var param_array = [];
@@ -57,6 +62,13 @@ function adapt_params(method, params) {
 	return params;
 }
 
+/**
+ * url adapter for different methods
+ * @param  {[type]} method [description]
+ * @param  {[type]} url    [description]
+ * @param  {[type]} params [description]
+ * @return {[type]}        [description]
+ */
 function adapt_url(method, url, params) {
 	if(method === 'get') {
 		return url+params;
@@ -64,6 +76,14 @@ function adapt_url(method, url, params) {
 	return url;
 }
 
+
+/**
+ * request method adapter for different methods
+ * @param  {[type]} method [description]
+ * @param  {[type]} req    [description]
+ * @param  {[type]} params [description]
+ * @return {[type]}        [description]
+ */
 function adapt_req(method, req, params) {
 	if(method !== 'get') {
 		req = req.send(params);

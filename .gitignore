@@ -34,3 +34,6 @@ log
 
 #bower files
 public/bower_components
+
+#is not finished
+test

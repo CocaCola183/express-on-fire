@@ -23,6 +23,7 @@ What I am doing:
 nvm use 0.12  
 git clone git@github.com:CocaCola183/express-on-fire.git demo  
 cd demo  
+git checkout 0.12/4.1
 npm install  
 npm start  
 ```
